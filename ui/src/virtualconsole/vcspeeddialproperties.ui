@@ -380,6 +380,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="m_onlyRunningCb">
+         <property name="toolTip">
+          <string>Only change the speed of functions that are running at this moment</string>
+         </property>
+         <property name="text">
+          <string>Only affect functions that are currently running</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="m_multInputLayout"/>
        </item>
        <item>

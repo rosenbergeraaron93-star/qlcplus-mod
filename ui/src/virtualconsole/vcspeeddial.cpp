@@ -64,6 +64,7 @@ VCSpeedDial::VCSpeedDial(QWidget* parent, Doc* doc)
     : VCWidget(parent, doc)
     , m_currentFactor(1)
     , m_resetFactorOnDialChange(false)
+    , m_onlyRunning(false)
     , m_absoluteValueMin(0)
     , m_absoluteValueMax(1000 * 10)
 {
@@ -559,7 +560,7 @@ void VCSpeedDial::slotFactoredValueChanged()
     foreach (const VCSpeedDialFunction &speeddialfunction, m_functions)
     {
         Function* function = m_doc->function(speeddialfunction.functionId);
-        if (function != NULL)
+        if (function != NULL && (m_onlyRunning == false || function->isRunning()))
         {
             if (speeddialfunction.fadeInMultiplier != VCSpeedDialFunction::None)
             {
@@ -595,6 +596,16 @@ void VCSpeedDial::setResetFactorOnDialChange(bool value)
 bool VCSpeedDial::resetFactorOnDialChange() const
 {
     return m_resetFactorOnDialChange;
+}
+
+void VCSpeedDial::setOnlyRunning(bool value)
+{
+    m_onlyRunning = value;
+}
+
+bool VCSpeedDial::onlyRunning() const
+{
+    return m_onlyRunning;
 }
 
 /*****************************************************************************
@@ -911,6 +922,10 @@ bool VCSpeedDial::loadXML(QXmlStreamReader &root)
         {
             loadXMLSources(root, tapInputSourceId);
         }
+        else if (root.name() == KXMLQLCVCSpeedDialOnlyRunning)
+        {
+            setOnlyRunning(root.readElementText() == KXMLQLCTrue);
+        }
         else if (root.name() == KXMLQLCVCSpeedDialResetFactorOnDialChange)
         {
             // Reset factor on dial change
@@ -1072,6 +1087,9 @@ bool VCSpeedDial::saveXML(QXmlStreamWriter *doc)
         saveXMLInput(doc, tapSrc);
         doc->writeEndElement();
     }
+
+    if (m_onlyRunning)
+        doc->writeTextElement(KXMLQLCVCSpeedDialOnlyRunning, KXMLQLCTrue);
 
     // MultDiv options
     if (m_resetFactorOnDialChange)

@@ -55,6 +55,7 @@ class QLabel;
 #define KXMLQLCVCSpeedDialMultDivResetKey   QStringLiteral("MultDivResetKey")
 #define KXMLQLCVCSpeedDialApplyKey          QStringLiteral("ApplyKey")
 #define KXMLQLCVCSpeedDialResetFactorOnDialChange QStringLiteral("ResetFactorOnDialChange")
+#define KXMLQLCVCSpeedDialOnlyRunning       QStringLiteral("OnlyRunning")
 #define KXMLQLCVCSpeedDialVisibilityMask    QStringLiteral("Visibility")
 #define KXMLQLCVCSpeedDialTime              QStringLiteral("Time")
 
@@ -209,10 +210,15 @@ private:
     qint32 m_currentFactor;
     qint32 m_factoredValue;
     bool m_resetFactorOnDialChange;
+    bool m_onlyRunning;
 
 public:
     void setResetFactorOnDialChange(bool value);
     bool resetFactorOnDialChange() const;
+
+    /** If true, the dial only changes the speed of functions that are running right now */
+    void setOnlyRunning(bool value);
+    bool onlyRunning() const;
 
     /*********************************************************************
      * External input

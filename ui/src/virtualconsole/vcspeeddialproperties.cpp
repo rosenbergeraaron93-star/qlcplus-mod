@@ -106,6 +106,7 @@ VCSpeedDialProperties::VCSpeedDialProperties(VCSpeedDial* dial, Doc* doc)
 
     // Mult/Div options
     m_resetFactorOnDialChangeCb->setChecked(m_dial->resetFactorOnDialChange());
+    m_onlyRunningCb->setChecked(m_dial->onlyRunning());
 
     /* Mult input */
     m_multInputWidget = new InputSelectionWidget(m_doc, this);
@@ -224,6 +225,7 @@ void VCSpeedDialProperties::accept()
 
     // Mult & Div
     m_dial->setResetFactorOnDialChange(m_resetFactorOnDialChangeCb->isChecked());
+    m_dial->setOnlyRunning(m_onlyRunningCb->isChecked());
     m_dial->setInputSource(m_multInputWidget->inputSource(), VCSpeedDial::multInputSourceId);
     m_dial->setMultKeySequence(m_multInputWidget->keySequence());
     m_dial->setInputSource(m_divInputWidget->inputSource(), VCSpeedDial::divInputSourceId);
